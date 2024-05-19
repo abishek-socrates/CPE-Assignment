@@ -1,0 +1,3 @@
+appName: backend
+image: docker.io/asocrates/backend:latest
+namespace: test
