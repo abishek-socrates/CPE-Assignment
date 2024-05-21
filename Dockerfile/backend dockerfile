@@ -1,27 +1,19 @@
-# Use the official .NET SDK image for building
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the project files to the working directory
 COPY . .
 
-# Restore dependencies and build the application
 RUN dotnet restore
+
 RUN dotnet build -c Release -o /app/build
 
-# Stage 2: Create the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the built application from the previous stage
 COPY --from=build /app/build .
 
-# Expose port 80 to the outside world
 EXPOSE 80
 
-# Command to run the application
 ENTRYPOINT ["dotnet", "YourAppName.dll"]
